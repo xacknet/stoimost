@@ -1,43 +1,20 @@
 import streamlit as st
 
-st.title('Калькулятор кадастровой стоимости земель сельскохозяйственного назначения')
+# Функция расчета кадастровой стоимости земель
+def calc_cadastral_value(area, coefficient, productivity):
+    cadastral_value = area * coefficient * productivity
+    return cadastral_value
 
-# Получение данных от пользователя
-ploshad = st.number_input('Введите площадь земельного участка, га:', min_value=0.0, step=0.1)
-kategoria = st.selectbox('Выберите категорию земельного участка:', ('I', 'II', 'III', 'IV', 'V', 'VI'))
-uchastok = st.selectbox('Выберите тип земельного участка:', ('Земли сельскохозяйственного назначения', 'Земли населенных пунктов'))
+# Основная часть приложения
+st.title('Калькулятор кадастровой стоимости земель')
+st.write('Введите данные для расчета кадастровой стоимости земель сельскохозяйственного назначения:')
 
-# Расчет кадастровой стоимости
-if kategoria == 'I':
-    if uchastok == 'Земли сельскохозяйственного назначения':
-        stoimost = ploshad * 115000
-    else:
-        stoimost = ploshad * 460000
-elif kategoria == 'II':
-    if uchastok == 'Земли сельскохозяйственного назначения':
-        stoimost = ploshad * 75000
-    else:
-        stoimost = ploshad * 300000
-elif kategoria == 'III':
-    if uchastok == 'Земли сельскохозяйственного назначения':
-        stoimost = ploshad * 45000
-    else:
-        stoimost = ploshad * 180000
-elif kategoria == 'IV':
-    if uchastok == 'Земли сельскохозяйственного назначения':
-        stoimost = ploshad * 25000
-    else:
-        stoimost = ploshad * 100000
-elif kategoria == 'V':
-    if uchastok == 'Земли сельскохозяйственного назначения':
-        stoimost = ploshad * 15000
-    else:
-        stoimost = ploshad * 60000
-else:
-    if uchastok == 'Земли сельскохозяйственного назначения':
-        stoimost = ploshad * 7500
-    else:
-        stoimost = ploshad * 30000
+# Поля для ввода данных
+area = st.number_input('Площадь земельного участка, га', min_value=0.0, step=0.01)
+coefficient = st.number_input('Коэффициент кадастровой стоимости, руб./га', min_value=0.0, step=0.01)
+productivity = st.number_input('Удельная производительность, ц/га', min_value=0.0, step=0.01)
 
-# Вывод результата
-st.write('Кадастровая стоимость земельного участка составляет:', stoimost, ')
+# Расчет кадастровой стоимости земель и вывод результата
+if st.button('Рассчитать'):
+    cadastral_value = calc_cadastral_value(area, coefficient, productivity)
+    st.write(f'Кадастровая стоимость земель составляет {cadastral_value:.2f} руб.')
